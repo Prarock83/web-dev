@@ -92,5 +92,5 @@ GET    /api/analysts                 ← List analysts
 
 ---
 
-*Developed for K.R. Mangalam University — DBMS Project*
+*Developed for K.R. Mangalam University — 
 *Student: Pratham Sharma | Roll: 2401010229*
