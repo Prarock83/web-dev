@@ -1,96 +1,93 @@
-# 🛡️ CIRS — Cybersecurity Incident Response System
-### Full-Stack Web Application | MySQL + Node.js + HTML/CSS/JS
+# 🛡️ CIRS — CYBERSECURITY INCIDENT RESPONSE SYSTEM
+### INTEL-OPS INTELLIGENCE DASHBOARD | HIGH-FIDELITY OPERATIONS
 
 ---
 
-## 📁 Project Structure
+## 🛰️ MISSION OVERVIEW
+**Project CIRS** (Cybersecurity Incident Response System) is a state-of-the-art "Intel Ops" dashboard designed for Tier-3 SOC analysts. It provides an immersive, high-fidelity environment for threat hunting, asset reconnaissance, and automated vulnerability remediation.
+
+> [!IMPORTANT]
+> **AESTHETIC SPECIFICATION:** This platform utilizes a strictly enforced **Times New Roman Small Caps** typography system, paired with **Glassmorphism** UI components and **Laser-Scan** animations for an authentic cybersecurity operational feel.
+
+---
+
+## ⚡ KEY OPERATIONAL CAPABILITIES
+
+### 🔭 ASSET INTELLIGENCE & RECON
+Integrated **Domain Scanner** module allowing analysts to perform real-time external reconnaissance.
+- **Terminal Interface:** Authentic `[INFO]`, `[WARN]`, and `[VULN]` reconnaissance logging.
+- **Port Mapping:** Automated service discovery and banner grabbing.
+- **Intelligence Sync:** Discovered vulnerabilities are automatically logged to the central Vulnerability Register.
+
+### 🛠️ INTERACTIVE REMEDIATION (FIX NOW)
+The **Vulnerability Management** register features a functional **"FIX NOW"** workflow.
+- **Automated Patching:** One-click deployment of security patches for known CVEs (e.g., Log4Shell, HTTP/2 Rapid Reset).
+- **Live Telemetry:** Real-time feedback via operational spinners and success confirmation toasts.
+
+### 📦 ENDPOINT DEPLOYMENT
+Direct integration for the **CIRS Browser Agent** (Chrome Extension).
+- **Universal Monitoring:** Deploy monitoring scripts across all organizational browser endpoints.
+- **Tactical Alerts:** Instant deployment feedback via the SOC notification system.
+
+---
+
+## 📁 SYSTEM ARCHITECTURE
 
 ```
-cirs/
+CIRS_INTEL_OPS/
 ├── backend/
-│   ├── server.js        ← Node.js + Express REST API
-│   └── package.json
+│   ├── server.js        ← Node.js + Express REST API (DB Pooling + JWT)
+│   └── package.json     ← Dependencies (Express, MySQL2, JWT, CORS)
 └── frontend/
-    ├── index.html       ← Login page
+    ├── index.html       ← Analyst Authentication (Laser-Scan UI)
     ├── css/
-    │   └── main.css     ← Shared dark cyberpunk styles
+    │   └── main.css     ← Design System (Tokens, Glassmorphism, Animations)
     ├── js/
-    │   └── app.js       ← Shared utilities (auth, API, toast)
-    └── pages/
-        ├── dashboard.html  ← Stats, charts, recent events
-        ├── events.html     ← Security events log + add/delete
-        ├── alerts.html     ← Alert management + status updates
-        └── incidents.html  ← Threats, vulns, mitigations, analysts
+    │   └── app.js       ← Intel Core (API Helper, Mock Resilience, Toasts)
+    ├── dashboard.html   ← Operations Center (Recon, Stats, Extension)
+    ├── events.html      ← Signal Intelligence (Event Logs)
+    ├── alerts.html      ← Alert Management (Triage)
+    └── incidents.html   ← Incident Management (Threats, Vulns, Patching)
 ```
 
 ---
 
-## ⚙️ Setup Instructions
+## ⚙️ DEPLOYMENT PROTOCOL
 
-### Step 1 — MySQL Database
-1. Open **MySQL Workbench**
-2. Run the SQL from your CIRS project document (Section 3 DDL + Section 4 DML)
-3. Make sure the database name is: `cybersecurity_irs`
+### PHASE 1 — DATABASE INITIALIZATION
+1. Initialize **MySQL Workbench**.
+2. Execute DDL and DML scripts from the project specification.
+3. Database Identifier: `cybersecurity_irs`.
 
-### Step 2 — Backend Setup
+### PHASE 2 — BACKEND SERVICES
 ```bash
-cd cirs/backend
+cd backend
 npm install
-```
-
-Open `server.js` and update your MySQL password on line ~15:
-```js
-password: 'YOUR_MYSQL_PASSWORD',
-```
-
-Start the server:
-```bash
 node server.js
-# API running on http://localhost:3000
 ```
+*The API gateway initializes on port `3000` with JWT signing active.*
 
-### Step 3 — Frontend
-Just open `cirs/frontend/index.html` in your browser.
-*(No build step needed — pure HTML/CSS/JS)*
-
----
-
-## 🔐 Demo Login
-- **Email:** `riya@corp.com`
-- **Password:** `password123`
-
-> **Note:** The demo uses a default bcrypt hash for `password123`.
-> For production, add a `password_hash` column to the Analyst table.
+### PHASE 3 — ANALYST PORTAL
+Open `frontend/index.html` in a modern browser (Safari recommended for optimized `-webkit-backdrop-filter` glassmorphism).
 
 ---
 
-## 🌐 Pages
-| Page | URL | Feature |
-|------|-----|---------|
-| Login | `index.html` | JWT authentication |
-| Dashboard | `pages/dashboard.html` | Stats, charts, recent events |
-| Events | `pages/events.html` | View, filter, add, delete events |
-| Alerts | `pages/alerts.html` | Manage alerts, update status |
-| Incidents | `pages/incidents.html` | Threats, vulns, mitigation, analysts |
+## 🔐 ACCESS CREDENTIALS (DEMO MODE)
+- **ID:** `riya@corp.com`
+- **Pass:** `password123`
+- **Emergency Bypass:** The system supports `demo_bypass` tokens for offline operational testing.
 
 ---
 
-## 🔌 API Endpoints
-```
-POST   /api/login                    ← Authenticate analyst
-GET    /api/dashboard/stats          ← Dashboard statistics
-GET    /api/events?severity=&search= ← List events
-POST   /api/events                   ← Log new event
-DELETE /api/events/:id               ← Delete event
-GET    /api/alerts?status=&priority= ← List alerts
-POST   /api/alerts                   ← Create alert
-PATCH  /api/alerts/:id/status        ← Update alert status
-GET    /api/threats                  ← List threats
-GET    /api/vulnerabilities          ← List vulnerabilities
-GET    /api/analysts                 ← List analysts
-```
+## 📡 API SIGNALS (REST GATEWAY)
+| METHOD | ENDPOINT | SIGNAL DATA |
+| :--- | :--- | :--- |
+| `POST` | `/api/login` | JWT Authentication Token |
+| `GET` | `/api/events` | Multi-parameter Log Filtering |
+| `GET` | `/api/vulnerabilities` | CVE Register + Patch Status |
+| `POST` | `/api/mitigations` | Automated Action Logging |
 
 ---
 
-*Developed for K.R. Mangalam University — 
+*Developed for K.R. Mangalam University — Intel Ops Simulation*
 *Student: Pratham Sharma | Roll: 2401010229*
