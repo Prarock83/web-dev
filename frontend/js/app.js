@@ -1,5 +1,7 @@
 // ── AUTH ──────────────────────────────────────────────────────
-const API = 'http://localhost:3000/api';
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000/api'
+  : 'https://cirs-backend.onrender.com/api'; // Replace with your actual Render URL
 
 // ── MOCK DATA FOR FALLBACK ────────────────────────────────────
 const MOCK_DATA = {
