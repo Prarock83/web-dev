@@ -4,26 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CIRS — Security Events</title>
-<link rel="stylesheet" href="../css/main.css">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <div class="app-layout">
 
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <div class="icon">🛡️</div>
-      <div class="title">CIRS</div>
-      <div class="sub">Incident Response</div>
+      <i class="fa-solid fa-shield-halved" style="color:var(--accent); font-size:24px;"></i>
+      <div style="display:flex; flex-direction:column">
+        <div class="title">CIRS</div>
+        <div class="sub">INTEL OPS</div>
+      </div>
     </div>
     <nav class="nav-section">
       <div class="nav-label">Navigation</div>
-      <a href="dashboard.html" class="nav-item" data-page="dashboard"><span class="nav-icon">⬡</span> Dashboard</a>
-      <a href="events.html" class="nav-item" data-page="events"><span class="nav-icon">⚡</span> Events</a>
-      <a href="alerts.html" class="nav-item" data-page="alerts"><span class="nav-icon">🔔</span> Alerts
+      <a href="dashboard.html" class="nav-item" data-page="dashboard"><i class="fa-solid fa-chart-line nav-icon"></i> Dashboard</a>
+      <a href="events.html" class="nav-item" data-page="events"><i class="fa-solid fa-bolt nav-icon"></i> Events</a>
+      <a href="alerts.html" class="nav-item" data-page="alerts"><i class="fa-solid fa-bell nav-icon"></i> Alerts
         <span class="nav-badge" id="alertBadge" style="display:none">0</span>
       </a>
-      <a href="incidents.html" class="nav-item" data-page="incidents"><span class="nav-icon">⚠</span> Incidents</a>
+      <a href="incidents.html" class="nav-item" data-page="incidents"><i class="fa-solid fa-shield-virus nav-icon"></i> Incidents</a>
     </nav>
+    <div class="sidebar-telemetry">
+      <div class="telemetry-label">SYSTEM TELEMETRY</div>
+      <div class="telemetry-row">
+        <span>LATENCY</span>
+        <span id="apiLatency">24ms</span>
+      </div>
+      <div class="telemetry-row">
+        <span>NODE</span>
+        <span>US-E1-SOC</span>
+      </div>
+      <div class="telemetry-row">
+        <span>ENCR</span>
+        <span>AES-256</span>
+      </div>
+    </div>
     <div class="sidebar-footer">
       <div class="analyst-info">
         <div class="analyst-avatar" id="analystInitials">--</div>
@@ -32,7 +50,7 @@
           <div class="analyst-role" id="analystRole"></div>
         </div>
       </div>
-      <button class="btn-logout" onclick="logout()">[ SIGN OUT ]</button>
+      <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> [ SIGN OUT ]</button>
     </div>
   </aside>
 
@@ -40,6 +58,10 @@
     <div class="topbar">
       <div class="topbar-title">CIRS / <span>Security Events</span></div>
       <div class="topbar-right">
+        <div class="status-meta">
+          <span>POSTURE: OPTIMAL</span>
+          <span>UPTIME: 99.99%</span>
+        </div>
         <div class="topbar-clock" id="clock"></div>
         <div class="status-pill">MONITORING</div>
       </div>
@@ -60,7 +82,8 @@
       </div>
 
       <!-- TABLE -->
-      <div class="panel anim-up">
+      <div class="mouse-glow-wrap panel anim-up">
+        <div class="mouse-glow"></div>
         <div class="panel-header">
           <div class="panel-title">Security Events Log</div>
           <span id="eventsCount" class="text-muted text-sm text-mono">—</span>
@@ -146,11 +169,12 @@
   </div>
 </div>
 
-<script src="../js/app.js"></script>
+<script src="js/app.js"></script>
 <script>
   requireAuth();
   initSidebar('events');
   initClock('clock');
+  initGlow();
   loadEvents();
   loadRefData();
 

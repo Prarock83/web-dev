@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CIRS — Incident Management</title>
-<link rel="stylesheet" href="../css/main.css">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="stylesheet" href="css/main.css">
 <style>
   .incident-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
@@ -65,19 +66,36 @@
 
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <div class="icon">🛡️</div>
-      <div class="title">CIRS</div>
-      <div class="sub">Incident Response</div>
+      <i class="fa-solid fa-shield-halved" style="color:var(--accent); font-size:24px;"></i>
+      <div style="display:flex; flex-direction:column">
+        <div class="title">CIRS</div>
+        <div class="sub">INTEL OPS</div>
+      </div>
     </div>
     <nav class="nav-section">
       <div class="nav-label">Navigation</div>
-      <a href="dashboard.html" class="nav-item" data-page="dashboard"><span class="nav-icon">⬡</span> Dashboard</a>
-      <a href="events.html"    class="nav-item" data-page="events"><span class="nav-icon">⚡</span> Events</a>
-      <a href="alerts.html"    class="nav-item" data-page="alerts"><span class="nav-icon">🔔</span> Alerts
+      <a href="dashboard.html" class="nav-item" data-page="dashboard"><i class="fa-solid fa-chart-line nav-icon"></i> Dashboard</a>
+      <a href="events.html"    class="nav-item" data-page="events"><i class="fa-solid fa-bolt nav-icon"></i> Events</a>
+      <a href="alerts.html"    class="nav-item" data-page="alerts"><i class="fa-solid fa-bell nav-icon"></i> Alerts
         <span class="nav-badge" id="alertBadge" style="display:none">0</span>
       </a>
-      <a href="incidents.html" class="nav-item" data-page="incidents"><span class="nav-icon">⚠</span> Incidents</a>
+      <a href="incidents.html" class="nav-item" data-page="incidents"><i class="fa-solid fa-shield-virus nav-icon"></i> Incidents</a>
     </nav>
+    <div class="sidebar-telemetry">
+      <div class="telemetry-label">SYSTEM TELEMETRY</div>
+      <div class="telemetry-row">
+        <span>LATENCY</span>
+        <span id="apiLatency">24ms</span>
+      </div>
+      <div class="telemetry-row">
+        <span>NODE</span>
+        <span>US-E1-SOC</span>
+      </div>
+      <div class="telemetry-row">
+        <span>ENCR</span>
+        <span>AES-256</span>
+      </div>
+    </div>
     <div class="sidebar-footer">
       <div class="analyst-info">
         <div class="analyst-avatar" id="analystInitials">--</div>
@@ -86,7 +104,7 @@
           <div class="analyst-role" id="analystRole"></div>
         </div>
       </div>
-      <button class="btn-logout" onclick="logout()">[ SIGN OUT ]</button>
+      <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> [ SIGN OUT ]</button>
     </div>
   </aside>
 
@@ -103,10 +121,10 @@
 
       <!-- TABS -->
       <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('threats')">🎯 Threats</button>
-        <button class="tab-btn" onclick="switchTab('vulns')">🔓 Vulnerabilities</button>
-        <button class="tab-btn" onclick="switchTab('mitigation')">🛠 Mitigation Actions</button>
-        <button class="tab-btn" onclick="switchTab('analysts')">👥 Analysts</button>
+        <button class="tab-btn active" onclick="switchTab('threats')"><i class="fa-solid fa-crosshairs"></i> Threats</button>
+        <button class="tab-btn" onclick="switchTab('vulns')"><i class="fa-solid fa-unlock-keyhole"></i> Vulnerabilities</button>
+        <button class="tab-btn" onclick="switchTab('mitigation')"><i class="fa-solid fa-tools"></i> Mitigation Actions</button>
+        <button class="tab-btn" onclick="switchTab('analysts')"><i class="fa-solid fa-users-gear"></i> Analysts</button>
       </div>
 
       <!-- THREATS TAB -->
@@ -114,7 +132,8 @@
         <div class="flex items-center gap-3 mb-4" style="justify-content:space-between">
           <div class="panel-title" style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:3px">ACTIVE THREATS</div>
         </div>
-        <div class="panel anim-up">
+        <div class="mouse-glow-wrap panel anim-up">
+          <div class="mouse-glow"></div>
           <div style="overflow-x:auto">
             <table class="data-table" id="threatsTable">
               <thead>
@@ -128,14 +147,15 @@
 
       <!-- VULNERABILITIES TAB -->
       <div class="tab-pane" id="tab-vulns">
-        <div class="panel anim-up">
+        <div class="mouse-glow-wrap panel anim-up">
+          <div class="mouse-glow"></div>
           <div class="panel-header">
             <div class="panel-title">Vulnerability Register</div>
           </div>
           <div style="overflow-x:auto">
             <table class="data-table" id="vulnsTable">
               <thead>
-                <tr><th>CVE ID</th><th>Vulnerability</th><th>Severity</th><th>CVSS Score</th><th>Affected System</th><th>Patched</th></tr>
+                <tr><th>CVE ID</th><th>Vulnerability</th><th>Severity</th><th>CVSS Score</th><th>Affected System</th><th>Status</th><th>Action</th></tr>
               </thead>
               <tbody><tr class="loading-row"><td colspan="6">Loading...</td></tr></tbody>
             </table>
@@ -150,13 +170,14 @@
           <button class="btn btn-primary" onclick="openModal('addMitigationModal')">+ Add Action</button>
         </div>
         <div id="mitigationList">
-          <div class="empty-state"><div class="empty-icon">⌛</div><div>Loading...</div></div>
+          <div class="empty-state"><div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div><div>Loading...</div></div>
         </div>
       </div>
 
       <!-- ANALYSTS TAB -->
       <div class="tab-pane" id="tab-analysts">
-        <div class="panel anim-up">
+        <div class="mouse-glow-wrap panel anim-up">
+          <div class="mouse-glow"></div>
           <div class="panel-header">
             <div class="panel-title">Analyst Team</div>
           </div>
@@ -213,11 +234,12 @@
   </div>
 </div>
 
-<script src="../js/app.js"></script>
+<script src="js/app.js"></script>
 <script>
   requireAuth();
   initSidebar('incidents');
   initClock('clock');
+  initGlow();
   loadTab('threats');
 
   function switchTab(name) {
@@ -273,6 +295,11 @@
               ? '<span style="color:var(--green);font-family:\'Share Tech Mono\',monospace;font-size:11px">✓ PATCHED</span>'
               : '<span style="color:var(--accent2);font-family:\'Share Tech Mono\',monospace;font-size:11px">✗ EXPOSED</span>'}
           </td>
+          <td>
+            ${v.patch_available 
+              ? '<span class="text-muted" style="font-size:10px">REMEDIATED</span>' 
+              : `<button class="btn btn-sm btn-accent" style="font-size:10px; padding:4px 8px;" onclick="patchVuln('${v.cve_id}')">FIX NOW</button>`}
+          </td>
         </tr>
       `).join('');
     } catch(e) {
@@ -291,20 +318,35 @@
   async function loadMitigation() {
     const container = document.getElementById('mitigationList');
     try {
-      // Fetch via alerts and their mitigation actions
       const alerts = await api('/alerts');
-      const statColors = { Completed:'var(--green)', 'In Progress':'var(--accent)', Pending:'var(--yellow)', Failed:'var(--accent2)' };
-      container.innerHTML = alerts.map(a => `
-        <div class="panel mb-4 anim-up">
-          <div class="panel-header">
-            <div class="panel-title">${a.alert_type} ${severityBadge(a.priority)}</div>
-            ${statusBadge(a.status)}
+      const mitigations = await api('/mitigations');
+      
+      container.innerHTML = alerts.map(a => {
+        const alertMits = mitigations.filter(m => m.alert_id == a.alert_id);
+        const mitsHtml = alertMits.length > 0 
+          ? alertMits.map(m => `
+              <div class="mitigation-item">
+                <div class="mitigation-item-top">
+                  <span class="action-name">${m.action_type}</span>
+                  <span class="mono text-sm text-muted">${m.timestamp ? m.timestamp.split('T')[1].slice(0,5) : ''}</span>
+                </div>
+                <div class="text-sm text-muted">${m.description}</div>
+              </div>
+            `).join('')
+          : `<div style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;text-align:center;padding:8px">No mitigation actions yet</div>`;
+
+        return `
+          <div class="panel mb-4 anim-up">
+            <div class="panel-header">
+              <div class="panel-title">${a.alert_type} ${severityBadge(a.priority)}</div>
+              ${statusBadge(a.status)}
+            </div>
+            <div class="panel-body">
+              ${mitsHtml}
+            </div>
           </div>
-          <div class="panel-body" id="mit-${a.alert_id}">
-            <div style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;text-align:center;padding:8px">No mitigation actions yet</div>
-          </div>
-        </div>
-      `).join('') || '<div class="empty-state"><div>No alerts found</div></div>';
+        `;
+      }).join('') || '<div class="empty-state"><div>No alerts found</div></div>';
 
       // Populate modal selects
       const as = document.getElementById('mitAlert');
@@ -339,9 +381,43 @@
   async function submitMitigation() {
     const alertId = document.getElementById('mitAlert').value;
     const type    = document.getElementById('mitType').value.trim();
+    const analystId = document.getElementById('mitAnalyst').value;
+    const desc    = document.getElementById('mitDesc').value.trim();
+
     if (!alertId || !type) { toast('Alert and Action Type are required', 'error'); return; }
-    toast('Note: Mitigation POST endpoint can be added to server.js per your needs', 'success');
-    closeModal('addMitigationModal');
+    
+    try {
+      await api('/mitigations', {
+        method: 'POST',
+        body: { alert_id: alertId, action_type: type, performed_by: analystId, description: desc }
+      });
+      toast('Mitigation action added successfully', 'success');
+      closeModal('addMitigationModal');
+      loadMitigation();
+      
+      // Reset form
+      document.getElementById('mitType').value = '';
+      document.getElementById('mitDesc').value = '';
+    } catch(e) {
+      toast('Failed to add action: ' + e.message, 'error');
+    }
+  }
+
+  async function patchVuln(cve) {
+    toast(`INITIATING REMEDIATION FOR ${cve}...`, 'success');
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+    
+    await new Promise(r => setTimeout(r, 2000));
+    
+    if (window.MOCK_DATA) {
+      const v = MOCK_DATA.vulnerabilities.find(item => item.cve_id === cve);
+      if (v) v.patch_available = true;
+    }
+    
+    toast(`${cve} PATCHED SUCCESSFULLY`, 'success');
+    loadVulns();
   }
 </script>
 </body>

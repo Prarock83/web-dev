@@ -25,7 +25,16 @@ const dbConfig = {
 let pool;
 async function getPool() {
   if (!pool) {
-    pool = mysql.createPool(dbConfig);
+    try {
+      pool = mysql.createPool(dbConfig);
+      // Test connection
+      const conn = await pool.getConnection();
+      console.log('✅ Connected to MySQL Database');
+      conn.release();
+    } catch (err) {
+      console.error('❌ Database connection failed:', err.message);
+      throw new Error('Database connection failed. Please ensure MySQL is running.');
+    }
   }
   return pool;
 }
